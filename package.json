@@ -2,5 +2,8 @@
   "devDependencies": {
     "cypress": "^13.7.1",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
   }
 }
