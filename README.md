@@ -1,5 +1,5 @@
-A small example of Page Object Model implementation with tools for:
-  - Working with different databases
+A small example of Page Object Model implementation with tools for working with:
+  - Different databases
   - Implicitly waiting for a value in the database
   - APIs
   - RabbitMQ
