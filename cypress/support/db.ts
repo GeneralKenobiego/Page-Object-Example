@@ -9,11 +9,11 @@ The DB connection config can be set during instance creation, but by default it 
 It is also possible to pass the connection config to a specific call of the "query" method.
 */
 
-class DbQuery {
+class DBQuery {
 	private readonly config: any;
 	
 	constructor (config = {}) {
-		const defaultConfig = Cypress.env('dbConf');
+		const defaultConfig = Cypress.env('firstDBConf');
 		this.config = {...defaultConfig, ...config};
 	}
 
@@ -46,25 +46,26 @@ class DbQuery {
 }
 
 export class FirstDb {
-	private static db = new DbQuery(Cypress.env('dbConf'));
+	private static db = new DBQuery(Cypress.env('firstDBConf'));
 
 	static getDocumentId(documentNumber: string) : Chainable<number> {
 		return this.db.query(`select id from some_document_table 
-													where document_number = ${documentNumber}`).then(result => {
+							            where document_number = ${documentNumber}`).then(result => {
 			return result[0].id;
 		})
 	}
 
 	static waitSpecificFileStatus(fileName: string, expectedStatus: string, timeoutSec: number) {
 		this.db.waitResult(`select st.status from files_info_table fit
-												inner join raw_data rd on fit.id = rd.file_info_id
-												inner join status_table st on rd.id = st.raw_data_id
-												where fit.name like '${fileName}%'`, expectedStatus, timeoutSec);
+                        inner join raw_data rd on fit.id = rd.file_info_id
+                        inner join status_table st on rd.id = st.raw_data_id
+                        where fit.name like '${fileName}%'`, expectedStatus, timeoutSec);
 	}
+
 }
 
 export class SecondDb {
-	private static db = new DbQuery(Cypress.env('secondDbConf'));
+	private static db = new DBQuery(Cypress.env('secondDBConf'));
 
 	// Some methods for a different database
 }
