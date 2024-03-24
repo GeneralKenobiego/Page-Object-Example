@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
 import { Client } from 'pg'
+import * as fs from 'fs';
 
 export default defineConfig({
   e2e: {
@@ -11,6 +12,14 @@ export default defineConfig({
         await client.end();
         return result.rows;
       }})
+      on('task', {
+        copyFile(arg) {
+          fs.copyFile(arg.originalFile, arg.newFile, (error) => {
+            if (error) throw error;
+          })
+          return null;
+        }
+      })
     },
     baseUrl: 'https://example.cypress.io',
     chromeWebSecurity: false,
