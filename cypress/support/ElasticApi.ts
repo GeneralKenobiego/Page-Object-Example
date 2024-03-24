@@ -11,8 +11,8 @@ type ElasticResponseBody = {
 }
 
 class ElasticAPI {
-    baseUrl: string;
-    credentialHeaders: object;
+    private baseUrl: string;
+    private credentialHeaders: object;
 
     constructor(baseUrl: string, credentialHeaders: Object) {
         this.baseUrl = baseUrl;
