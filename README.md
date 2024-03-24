@@ -2,8 +2,8 @@ A small example of Page Object Model implementation with tools for working with:
   - Different databases
   - Implicitly waiting for a value in the database
   - APIs
-  - RabbitMQ
-  - Elasticsearch
+  - Different RabbitMQ instances
+  - Different Elasticsearch instances
   - Local files
     
 It also implements an example of running tests in parallel on different CI/CD agents.
