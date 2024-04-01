@@ -1,0 +1,20 @@
+trigger: none
+
+variables:
+  imageName: tests_base_image
+  containerRegistry: harbor
+
+pool:
+  name: 'Wonderful Pool Name'
+  demands:
+    - Agent.OS -equals Linux
+
+steps:
+  - task: Docker@2
+    inputs:
+      containerRegistry: $(containerRegistry)
+      repository: 'repository/tests/$(imageName)'
+      command: 'buildAndPush'
+      Dockerfile: './Dockerfile_base'
+      tags: 'latest'
+      addPipelineData: false

@@ -1,0 +1,62 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - cypress*
+      - master
+
+variables:
+  imageName: e2e_tests
+  containerRegistry: harbor
+
+pool:
+  name: 'Wonderful Pool Name'
+  demands:
+    - Agent.OS -equals Linux
+
+stages:
+  - stage: e2eTests
+    displayName: 'e2eTestsBuild'
+    jobs:
+      - job: e2eTestsBuild
+        displayName: 'e2eTestsBuildImage'
+        steps: 
+          - task: Docker@2
+            inputs:
+              containerRegistry: $(containerRegistry)
+              repository: 'repository/tests/$(imageName)'
+              command: 'buildAndPush'
+              Dockerfile: './Dockerfile'
+              tags: '${Build.BuildId}'
+              addPipelineData: false
+
+      - job: e2eTestStream1
+        displayName: e2eRunStream1
+        dependsOn: e2eTestsBuild
+        steps:
+          - template: somePipeline.template.yaml # Your usual e2e pipeline
+            parameters:
+              imageName: ${imageName}
+              containerName: $(imageName)-job1
+              spec: cypress/e2e/stream_1/*
+              buildEnv: ${Build.BuildId}
+          - bash: exit 1
+            displayName: Fail build if partially successful
+            condition: eq(variable['Agent.JobStatus'], 'SucceededWithIssues')
+
+      - job: e2eTestStream2
+        displayName: e2eRunStream1
+        dependsOn: e2eTestsBuild
+        steps:
+          - template: somePipeline.template.yaml
+            parameters:
+              imageName: ${imageName}
+              containerName: $(imageName)-job2
+              spec: cypress/e2e/stream_2/*
+              buildEnv: ${Build.BuildId}
+          - bash: exit 1
+            displayName: Fail build if partially successful
+            condition: eq(variable['Agent.JobStatus'], 'SucceededWithIssues')
+
+  - stage: publishTestResults
+  # results gathering here                
