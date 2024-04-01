@@ -4,7 +4,7 @@ A small example of Page Object Model implementation with tools for working with:
   - APIs
   - ✅ Different RabbitMQ instances
   - ✅ Different Elasticsearch instances
-  - Local files
+  - ✅ Local files
     
 ✅ It also implements an example of running tests in parallel on different CI/CD agents and a way to speed up docker image building before running tests (By creating and saving a docker image with all dependencies).
 
