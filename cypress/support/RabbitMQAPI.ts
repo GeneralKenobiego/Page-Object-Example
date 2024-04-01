@@ -1,4 +1,4 @@
-class RabbitMQAPI {
+class RabbitMQApi {
     private baseUrl: string;
     private credentialHeaders: object;
 
@@ -45,7 +45,7 @@ export class FirstRabbitMQ {
         'Content-Type': 'application/json',
     }
 
-    static api = new RabbitMQAPI(this.rabbitMQBaseUrl, this.rabbitMQCredentialHeaders);
+    static api = new RabbitMQApi(this.rabbitMQBaseUrl, this.rabbitMQCredentialHeaders);
 }
 
 export class SecondRabbitMQ {

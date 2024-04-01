@@ -10,7 +10,7 @@ type ElasticResponseBody = {
     }
 }
 
-class ElasticAPI {
+class ElasticApi {
     private baseUrl: string;
     private credentialHeaders: object;
 
@@ -50,7 +50,7 @@ export class FirstElastic {
         'Content-Type': 'application/json',
     }
 
-    static api = new ElasticAPI(this.elasticBaseUrl, this.elasticCredentialHeaders);
+    static api = new ElasticApi(this.elasticBaseUrl, this.elasticCredentialHeaders);
 }
 
 export class SecondElastic {
