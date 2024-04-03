@@ -1,12 +1,14 @@
 import Chainable = Cypress.Chainable
 
 class FirstApi {
-  deleteDocument(documentId: number) {
-    cy.request('POST', '/api/documents/delete', {
-      'id': documentId.toString(),
-      'reason': 'cleaning'
-    }).then(response => {
-      expect(response.status).to.be.eq(200);
+  deleteDocuments(documentIds: number[]) {
+    documentIds.forEach(documentId => {
+      cy.request('POST', '/api/documents/delete', {
+        'id': documentId.toString(),
+        'reason': 'cleaning'
+      }).then(response => {
+        expect(response.status).to.be.eq(200);
+      })
     })
   }
 
