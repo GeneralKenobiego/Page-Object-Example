@@ -27,7 +27,7 @@ describe('Page Object example spec', () => {
     uploadPage.openUploadFileForm()
       .selectFile(testFileData.fileName, testFileData.filePath)
       .uploadFile();
-    // Implicit expectation of a value in the database
+    // Implicit waiting of a value in the database
     FirstDb.waitSpecificFileStatus(testFileData.fileName, 'SUCCESS', 60);
 
     const transactionsPage = FirstTransactionsPage.open();
