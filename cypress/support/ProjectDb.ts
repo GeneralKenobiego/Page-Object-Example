@@ -50,8 +50,13 @@ export class FirstDb {
 
 	static getDocumentId(documentNumber: string) : Chainable<number> {
 		return this.db.query(`select id from some_document_table 
-							            where document_number = ${documentNumber}`).then(result => {
-			return result[0].id;
+													where document_number = '${documentNumber}'
+													and deleted = 'false'`).then(result => {
+			if (!result.length) {
+				throw new Error(`Couldn't find document with number ${documentNumber}`);
+			} else {
+				return result[0].id;
+			}					
 		})
 	}
 
@@ -60,6 +65,20 @@ export class FirstDb {
                         inner join raw_data rd on fit.id = rd.file_info_id
                         inner join status_table st on rd.id = st.raw_data_id
                         where fit.name like '${fileName}%'`, expectedStatus, timeoutSec);
+	}
+
+	static getDocumentDate(documentNumber: string) : Chainable<string> {
+		// Node pg automatically converts fields with DATE and TIMESTAMP types to local time so I convert the date to a string inside the request
+		return this.db.query(`select date(pd.transaction_date)::text as transaction_date from processing_day pd
+													inner join some_document_table sdt on sdt.id = pd.document_id
+													where sdt.document_number = '${documentNumber}'
+													and sdt.deleted = 'false'`).then(result => {
+			if (!result.length) {
+				throw new Error(`Couldn't find transaction date for document with number ${documentNumber}`);
+			} else {
+				return result[0].transaction_date;
+			}				
+		})
 	}
 
 }
