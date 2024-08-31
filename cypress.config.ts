@@ -5,19 +5,37 @@ import * as fs from 'fs';
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      on('task', {async connectDB({query, methodConf}) {
-        const client = new Client(methodConf);
-        await client.connect();
-        const result = await client.query(query);
-        await client.end();
-        return result.rows;
-      }})
+      on('task', {
+        async connectDB({query, methodConf}) {
+          const client = new Client(methodConf);
+          await client.connect();
+          const result = await client.query(query);
+          await client.end();
+          return result.rows;
+        }
+      })
       on('task', {
         copyFile(arg) {
           fs.copyFile(arg.originalFile, arg.newFile, (error) => {
             if (error) throw error;
           })
           return null;
+        }
+      })
+      on('task', {
+        isFileExistsSync(fileName) {
+          return fs.existsSync(fileName);
+        }
+      })
+      on('task', {
+        makeDirSync(args) {
+          return fs.mkdirSync(args[0], args[1]);
+        }
+      })
+      on('task', {
+        deleteFilesSync(args) {
+          fs.rmSync(args[0], args[1]);
+          return true;
         }
       })
     },
