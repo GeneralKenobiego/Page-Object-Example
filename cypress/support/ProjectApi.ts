@@ -1,24 +1,26 @@
-import Chainable = Cypress.Chainable
+import Chainable = Cypress.Chainable;
 
 class FirstApi {
   deleteDocuments(documentIds: number[]) {
-    documentIds.forEach(documentId => {
-      cy.request('POST', '/api/documents/delete', {
-        'id': documentId.toString(),
-        'reason': 'cleaning'
-      }).then(response => {
+    documentIds.forEach((documentId) => {
+      cy.request("POST", "/api/documents/delete", {
+        "id": documentId.toString(),
+        "reason": "cleaning",
+      }).then((response) => {
         expect(response.status).to.be.eq(200);
-      })
-    })
+      });
+    });
   }
 
-  getFilteredTransactionsList(documentNumber: string) : Chainable<Object[]>{
-    return cy.request('GET', '/api/transactions/list', {
-      'documentNumber': documentNumber
-    }).then(response => {
-      expect(response.status).to.be.eq(200);
-      return response.body.items;
-    })
+  getFilteredTransactionsList(documentNumber: string): Chainable<Object[]> {
+    return cy
+      .request("GET", "/api/transactions/list", {
+        "documentNumber": documentNumber,
+      })
+      .then((response) => {
+        expect(response.status).to.be.eq(200);
+        return response.body.items;
+      });
   }
 }
 

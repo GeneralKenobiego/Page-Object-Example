@@ -10,24 +10,24 @@ variables:
   containerRegistry: harbor
 
 pool:
-  name: 'Wonderful Pool Name'
+  name: "Wonderful Pool Name"
   demands:
     - Agent.OS -equals Linux
 
 stages:
   - stage: e2eTests
-    displayName: 'e2eTestsBuild'
+    displayName: "e2eTestsBuild"
     jobs:
       - job: e2eTestsBuild
-        displayName: 'e2eTestsBuildImage'
-        steps: 
+        displayName: "e2eTestsBuildImage"
+        steps:
           - task: Docker@2
             inputs:
               containerRegistry: $(containerRegistry)
-              repository: 'repository/tests/$(imageName)'
-              command: 'buildAndPush'
-              Dockerfile: './Dockerfile'
-              tags: '${Build.BuildId}'
+              repository: "repository/tests/$(imageName)"
+              command: "buildAndPush"
+              Dockerfile: "./Dockerfile"
+              tags: "${Build.BuildId}"
               addPipelineData: false
 
       - job: e2eTestStream1
@@ -59,4 +59,4 @@ stages:
             condition: eq(variable['Agent.JobStatus'], 'SucceededWithIssues')
 
   - stage: publishTestResults
-  # results gathering here                
+  # results gathering here
