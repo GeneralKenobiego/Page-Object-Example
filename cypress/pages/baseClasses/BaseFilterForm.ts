@@ -1,5 +1,4 @@
 export class BaseFilterForm {
-
   protected openFilterButton: string;
   protected documentNumberField: string;
   protected dateField: string;
@@ -18,5 +17,4 @@ export class BaseFilterForm {
     cy.get(this.dateField).clear().type(date);
     return this;
   }
-
 }
